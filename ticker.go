@@ -160,7 +160,7 @@ func (t *Ticker) Start() error {
 			}
 
 			// Cap the sum of all intervals.
-			if t.maxDurationSet && t.total+next > t.maxDuration {
+			if t.maxDurationSet && t.total > t.maxDuration-next {
 				return
 			}
 			t.total += next
