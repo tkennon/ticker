@@ -5,7 +5,7 @@
 Ticker utilities for Golang - extensions of the standard library's time.Ticker.
 Create constant, linear, or exponential tickers. Optionally configure random
 jitter, minimum or maximum intervals, and maximum cumulative duration. See the
-`examples_test.go` for usage.
+`examples_test.go` for comprehensive usage.
 
 # Install
 
@@ -13,9 +13,9 @@ jitter, minimum or maximum intervals, and maximum cumulative duration. See the
 
 # Usage
 
-Create tickers that fire at linarly or exponentially increasing intervals. A
+Create tickers that fire at linearly or exponentially increasing intervals. A
 constant ticker is also included that is functionally equivalent to a
-`time.Ticker`. Once started, tickers must be stopped in order to clean up
+`time.Ticker`. Once started, tickers _must_ be stopped in order to clean up
 resources.
 
 ```
@@ -33,9 +33,8 @@ for range t.C {
     // added a context to the ticker, and we have not specified a maximum total
     // duration through WithMaxDuration(), the ticker will tick forever.
 }
-
 ```
 
-# API/Stability
+# API Stability
 
 `v1.0.0` is not yet tagged, but the package is considered stable.
