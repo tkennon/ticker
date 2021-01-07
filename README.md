@@ -37,4 +37,4 @@ for range t.C {
 
 # API Stability
 
-`v1.0.0` is not yet tagged, but the package is considered stable.
+`v1.0.0` is yet tagged and onsidered stable.
