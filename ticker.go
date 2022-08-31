@@ -2,7 +2,7 @@ package ticker
 
 import (
 	"context"
-	"errors"
+	"fmt"
 	"math/rand"
 	"time"
 )
@@ -11,13 +11,6 @@ import (
 var (
 	// magnitude returns a uniformly random number in the range [-1.0, 1.0).
 	magnitude = func() float64 { return 1.0 - 2.0*rand.Float64() }
-)
-
-var (
-	// errInvalidSettings is returned from (*Ticker).Start() when invalid ticker
-	// settings are detected; such as if the minimum duration had been set to
-	// greater than the maximum duration.
-	errInvalidSettings = errors.New("invalid ticker settings")
 )
 
 type interval interface {
@@ -126,10 +119,10 @@ func (t *Ticker) Start() error {
 	// Sanity check the min/max intervals.
 	if t.minIntervalSet {
 		if t.maxIntervalSet && t.minInterval > t.maxInterval {
-			return errInvalidSettings
+			return fmt.Errorf("ticker minimum interval (%d) is greater than maximum interval (%d)", t.minInterval, t.maxInterval)
 		}
 		if t.maxDurationSet && t.minInterval > t.maxDuration {
-			return errInvalidSettings
+			return fmt.Errorf("ticker minimum interval (%d) is greater than maximum duration (%d)", t.minInterval, t.maxDuration)
 		}
 	}
 
