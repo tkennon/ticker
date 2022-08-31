@@ -24,8 +24,8 @@ type interval interface {
 	next() time.Duration
 }
 
-// Ticker holds a channel that delivers `ticks' of a clock at intervals (just
-// like the standard library time.Ticker).
+// Ticker holds a channel that delivers `ticks` of a clock at intervals (just
+// like the standard library `time.Ticker`).
 type Ticker struct {
 	ctx            context.Context
 	interval       interval
