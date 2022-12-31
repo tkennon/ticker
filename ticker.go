@@ -51,11 +51,12 @@ func newTicker(interval interval) *Ticker {
 // WithJitter adds a uniformly random jitter to the time the ticker next fires.
 // The jitter will be within `fraction` of the next interval. For example,
 // WithJitter(0.1) applies a 10% jitter, so a linear ticker that would otherwise
-// fire after 1, 2, 3, 4, ... second would now fire between 0.9-1.1 seconds on
+// fire after 1, 2, 3, 4, ... seconds would now fire between 0.9-1.1 seconds on
 // the first tick, and 1.8-2.2 seconds on the second tick, and so forth. The
 // jitter fraction may be greater than one, allowing the possiblity for jittered
 // tickers to fire immediately if the calculated interval with the jitter is
-// less than zero.
+// less than zero. Note that jitter is symmetric; a negative `fraction` is
+// treated the same as the corresponding positive value.
 func (t *Ticker) WithJitter(fraction float64) *Ticker {
 	t.jitter = fraction
 	return t
