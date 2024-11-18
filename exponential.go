@@ -9,7 +9,7 @@ type exponential struct {
 	multiplier float32
 }
 
-func (e *exponential) next() time.Duration {
+func (e *exponential) Next() time.Duration {
 	current := e.current
 	c := float32(e.current) * e.multiplier
 	if e.multiplier > 0 && c > 0 || e.multiplier < 0 && c < 0 {
@@ -21,7 +21,7 @@ func (e *exponential) next() time.Duration {
 
 // NewExponential returns an exponential backoff ticker.
 func NewExponential(initial time.Duration, multiplier float32) *Ticker {
-	return newTicker(&exponential{
+	return NewTicker(&exponential{
 		current:    initial,
 		multiplier: multiplier,
 	})

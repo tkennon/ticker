@@ -13,15 +13,18 @@ var (
 	magnitude = func() float64 { return 1.0 - 2.0*rand.Float64() }
 )
 
-type interval interface {
-	next() time.Duration
+// Interval provides the interval that the next ticker should fire after.
+type Interval interface {
+	// The [*Ticker.Start] method will call Next to determine how long to wait
+	// until firing the next ticker.
+	Next() time.Duration
 }
 
 // Ticker holds a channel that delivers `ticks` of a clock at intervals (just
-// like the standard library `time.Ticker`).
+// like the standard library [time.Ticker]).
 type Ticker struct {
 	ctx            context.Context
-	interval       interval
+	interval       Interval
 	total          time.Duration
 	jitter         float64
 	minIntervalSet bool
@@ -38,7 +41,11 @@ type Ticker struct {
 	timeAfterFn func(time.Duration) <-chan time.Time
 }
 
-func newTicker(interval interval) *Ticker {
+// NewTicker creates a new generic ticker with the given interval. This package
+// provides [NewConstant], [NewLinear], and [NewExponential] as convenience
+// initialisers for constant, linear, and exponential backoff tickers, but
+// NewTicker allows the caller to specify any custom interval.
+func NewTicker(interval Interval) *Ticker {
 	return &Ticker{
 		ctx:         context.Background(),
 		timeAfterFn: time.After,
@@ -138,7 +145,7 @@ func (t *Ticker) Start() error {
 
 		for {
 			// Get the next interval.
-			next := t.interval.next()
+			next := t.interval.Next()
 
 			// Add jitter.
 			next += time.Duration(t.jitter * magnitude() * float64(next))
